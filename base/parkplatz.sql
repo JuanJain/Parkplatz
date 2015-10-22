@@ -1,8 +1,10 @@
+CREATE DATABASE  IF NOT EXISTS `parkplatz` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `parkplatz`;
 -- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: parkplatz
 -- ------------------------------------------------------
--- Server version	5.6.27-log
+-- Server version	5.6.25-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -146,8 +148,10 @@ CREATE TABLE `catubicacionesestacionamiento` (
   `colonia` varchar(45) DEFAULT NULL,
   `delegacionMunicipio` varchar(45) DEFAULT NULL,
   `estado` varchar(45) DEFAULT NULL,
-  `idCoordenadas` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idcatubicacionesestacionamiento`)
+  `idCoordenadas` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idcatubicacionesestacionamiento`),
+  KEY `idCoordenadas` (`idCoordenadas`),
+  CONSTRAINT `catubicacionesestacionamiento_ibfk_1` FOREIGN KEY (`idCoordenadas`) REFERENCES `coordenadas` (`idcoordenadas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -171,8 +175,10 @@ CREATE TABLE `coordenadas` (
   `idcoordenadas` int(11) NOT NULL,
   `cordenadaX` varchar(45) DEFAULT NULL,
   `coordenadaY` varchar(45) DEFAULT NULL,
-  `idTipoCoordenadas` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idcoordenadas`)
+  `idTipoCoordenadas` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idcoordenadas`),
+  KEY `idTipoCoordenadas` (`idTipoCoordenadas`),
+  CONSTRAINT `coordenadas_ibfk_1` FOREIGN KEY (`idTipoCoordenadas`) REFERENCES `cattipocoordenadas` (`idcattipocoordenadas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -194,9 +200,9 @@ DROP TABLE IF EXISTS `datos`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `datos` (
   `iddatos` int(11) NOT NULL,
-  `nombre` varchar(45) DEFAULT NULL,
-  `aPaterno` varchar(45) DEFAULT NULL,
-  `aMaterno` varchar(45) DEFAULT NULL,
+  `nombre` varchar(45) NOT NULL,
+  `aPaterno` varchar(45) NOT NULL,
+  `aMaterno` varchar(45) NOT NULL,
   `idCordenadas` int(11) DEFAULT NULL,
   PRIMARY KEY (`iddatos`),
   KEY `idCordenadas` (`idCordenadas`),
@@ -229,10 +235,12 @@ CREATE TABLE `datosestacionamientos` (
   `tarifa` float DEFAULT NULL,
   `alturaMaxima` float DEFAULT NULL,
   `descripcion` varchar(275) DEFAULT NULL,
-  `idAsset` varchar(45) DEFAULT NULL,
+  `idAsset` int(11) DEFAULT NULL,
   PRIMARY KEY (`iddatosestacionamientos`),
   KEY `datosestacionamientos` (`idUbicacion`),
-  CONSTRAINT `datosestacionamientos_ibfk_1` FOREIGN KEY (`idUbicacion`) REFERENCES `catubicacionesestacionamiento` (`idcatubicacionesestacionamiento`)
+  KEY `idAsset` (`idAsset`),
+  CONSTRAINT `datosestacionamientos_ibfk_1` FOREIGN KEY (`idUbicacion`) REFERENCES `catubicacionesestacionamiento` (`idcatubicacionesestacionamiento`),
+  CONSTRAINT `datosestacionamientos_ibfk_2` FOREIGN KEY (`idAsset`) REFERENCES `asset` (`idasset`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -263,7 +271,8 @@ CREATE TABLE `estacionamientos` (
   KEY `idServicios` (`idServicios`),
   CONSTRAINT `estacionamientos_ibfk_1` FOREIGN KEY (`idDatosEstacionamiento`) REFERENCES `datosestacionamientos` (`iddatosestacionamientos`),
   CONSTRAINT `estacionamientos_ibfk_2` FOREIGN KEY (`idDatos`) REFERENCES `datos` (`iddatos`),
-  CONSTRAINT `estacionamientos_ibfk_3` FOREIGN KEY (`idServicios`) REFERENCES `servicios` (`idservicios`)
+  CONSTRAINT `estacionamientos_ibfk_3` FOREIGN KEY (`idServicios`) REFERENCES `servicios` (`idservicios`),
+  CONSTRAINT `estacionamientos_ibfk_4` FOREIGN KEY (`idServicios`) REFERENCES `servicios` (`idservicios`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -478,12 +487,14 @@ CREATE TABLE `usuario` (
   `idusuario` int(11) NOT NULL,
   `idDatos` int(11) DEFAULT NULL,
   `idTipoUsuario` int(11) DEFAULT NULL,
-  `password` varchar(45) DEFAULT NULL,
+  `password` varchar(500) DEFAULT NULL,
   `correo` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idusuario`),
   KEY `usuario` (`idDatos`),
+  KEY `idTipoUsuario` (`idTipoUsuario`),
   CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`idDatos`) REFERENCES `datos` (`iddatos`),
-  CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`idDatos`) REFERENCES `datos` (`iddatos`)
+  CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`idDatos`) REFERENCES `datos` (`iddatos`),
+  CONSTRAINT `usuario_ibfk_3` FOREIGN KEY (`idTipoUsuario`) REFERENCES `tipousuario` (`idtipoUsuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -495,6 +506,113 @@ LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'parkplatz'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `borrar_usuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `borrar_usuario`(in correo varchar(45))
+begin
+	delete from datos where iddatos = (select idDatos from usuarios where usuarios.correo = correo);
+    delete from usuario where usuario.correo = correo;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `cambiar_pass` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cambiar_pass`(in correo varchar(45), in pass varchar(500), in nvo_pass varchar(500))
+begin
+	if pass = (select password from usuario where usuario.correo = correo) then
+	update usuario set usuario.password = nvo_pass where usuario.correo=correo;
+    else
+    select 'Contraseña actual incorrecta' as 'Error';
+    end if;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `editar_datos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `editar_datos`(in nuo_Nombre varchar(45), in nvo_aPaterno varchar(45), in nvo_aMaterno varchar(45), in correo varchar(45))
+begin
+	update datos set nombre = nvo_Nombre, aPaterno = nvo_aPaterno, aMaterno = nvo_aMaterno where iddatos = (select idDatos from usuario where usuario.correo = correo);
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `nuevo_usuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `nuevo_usuario`(in Nombre varchar(45), in aPaterno varchar(45), in aMaterno varchar(45), in tipoUsuario int, in correo varchar(45), in contra varchar(500))
+begin
+	declare idDatos int;
+    set idDatos = (select count(*) from datos);
+    insert into datos values (idDatos, Nombre, aPaterno, aMaterno, null);
+    insert into usuario( select count(*) from usuario, idDatos, tipoUsuario, contra, correo);
+  end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `obtener_datos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `obtener_datos`(in correo varchar(45))
+begin
+	select * from datos where iddatos = (select idDatos from usuario where usuario.correo = correo);
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -505,4 +623,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-21 17:42:36
+-- Dump completed on 2015-10-21 20:32:49
