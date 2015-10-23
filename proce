@@ -1,0 +1,67 @@
+use parkplatz;
+
+delimiter //
+create procedure nuevo_tipoUsr(in descrip varchar(100))
+begin
+	declare a int;
+    declare b int;
+    set a = (select count(*) from tipousuario where descripcion = descrip);
+    set b = (select count(*) from tipousuario) + 1;
+    if a = 0 then
+		insert into tipousuario values(b, descrip);
+	else
+		select 'Ya existe' as 'Error';
+	end if;
+end //
+delimiter ;
+
+delimiter //
+create procedure borra_tipoUsr(in idTip int)
+begin
+	delete from tipousuario where idtipoUsuario = idTip;
+end //
+delimiter ;
+
+delimiter //
+create procedure nuevo_Servicio(in nom varchar(100), in descrip varchar(500), in precio int)
+begin
+	declare a int;    
+    declare b  int;
+    set a = (select count(*) from servicios where nom = nombre);
+    set b = (select count(*) from servicios) + 1;
+    if(a = 0) then
+		insert into servicios values(b, nom, descrip, precio);
+	else
+		select 'Ya existe' as 'Error';
+	end if;
+end //
+delimiter ;
+
+delimiter //
+create procedure borrar_Servicio(in idServ int)
+begin
+	delete from servicios where idservicios = idServ;
+end //
+delimiter ;
+
+delimiter //
+create procedure nuevo_favorito(in idUsr int, in idEst int)
+begin
+	declare a int;
+    declare b int;
+    set a = (select count(*) from favoritos where idUsuario = idUsr and idEstacionamiento = idEst);
+    set b = (select count(*) from favoritos where idUsuario = idUsr) + 1;
+    if(a = 0) then
+		insert into favoritos values(b, idUsr, idEst);
+	else
+		select 'Ya existe' as 'Error';
+	end if;
+end //
+delimiter ;
+
+delimiter //
+create procedure borrar_favorito(in idUsr int, in idEst int)
+begin
+	delete from favoritos where idUsuario = idUsr and isEstacionamiento = idEst;
+end //;
+delimiter ;
