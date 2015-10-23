@@ -14,7 +14,7 @@ import javafx.fxml.Initializable;
  *
  * @author Dell
  */
-public class RegistrarEstacionamientoController implements Initializable {
+public class Registrar_EstacionamientoController implements Initializable {
 
     /**
      * Initializes the controller class.

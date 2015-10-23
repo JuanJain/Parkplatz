@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS `asset`;
 CREATE TABLE `asset` (
   `idasset` int(11) NOT NULL,
   `idTipoAsset` int(11) DEFAULT NULL,
-  `ulr` varchar(100) DEFAULT NULL,
+  `url` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`idasset`),
   KEY `asset` (`idTipoAsset`),
   CONSTRAINT `asset_ibfk_1` FOREIGN KEY (`idTipoAsset`) REFERENCES `cattipoasset` (`idcattipoasset`)
@@ -613,6 +613,55 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `ver_cordenadasEst` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ver_cordenadasEst`(in idEstacionamiento int)
+begin
+	select cordenadaX as 'X', cordenadaX as 'Y' from coordenadas
+    inner join `catubicacionesestacionamiento` on `catubicacionesestacionamiento`.idCoordenadas = coordenadas.idcoordenadas
+    inner join `datosestacionamientos` on `datosestacionamientos`.idUbicacion = catubicacionesestacionamiento.idcatubicacionesestacionamiento
+    inner join estacionamientos on estacionamientos.idDatosEstacionamiento = datosestacionamientos.iddatosestacionamientos
+    where estacionamientos.idestacionamientos = idEstacionamiento;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `ver_datosEstacionamiento` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ver_datosEstacionamiento`(in nombre varchar(100))
+begin
+	select datosestacionamientos.nombreEstacionamiento as 'Nombre', 
+    datosestacionamientos.horarios as 'Horario', datosestacionamientos.tarifa as 'Tarifa',
+    datosestacionamientos.alturaMaxima as 'Altura Máxima', datosestacionamientos.descripcion as 'Descripcion', catubicacionesestacionamiento.calle as 'Calle',
+    catubicacionesestacionamiento.colonia as 'Colonia', catubicacionesestacionamiento.`delegacionMunicipio` as 'Delegacion o Municipio', 
+    catubicacionesestacionamiento.estado as 'Estado', asset.url from datosestacionamientos
+    inner join asset on datosestacionamientos.idAsset = asset.idasset 
+    inner join catubicacionesestacionamiento on catubicacionesestacionamiento.idcatubicacionesestacionamiento = datosestacionamientos.idUbicacion
+    where datosestacionamientos.nombreEstacionamiento like concat('%', nombre,'%')  order by `datosestacionamientos`.`nombreEstacionamiento` desc;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -623,4 +672,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-21 20:32:49
+-- Dump completed on 2015-10-22 21:52:57
