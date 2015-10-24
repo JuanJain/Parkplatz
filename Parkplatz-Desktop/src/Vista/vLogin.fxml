@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.LoginController">
+    <stylesheets>
+        <URL value="@/Vista/css/styles.css"/>
+    </stylesheets>
+  <children>
+    <Pane layoutX="0.0" layoutY="0.0" prefHeight="400.0" prefWidth="600.0" >
+      <children>
+        <Label layoutX="80.0" layoutY="116.0" text="Correo" />
+        <Label layoutX="80.0" layoutY="184.0" text="Contraseña" />
+        <PasswordField fx:id="pass" layoutX="200.0" layoutY="178.0" prefWidth="200.0" promptText="Ingresa tu contraseña" />
+        <TextField fx:id="correo" layoutX="200.0" layoutY="116.0" prefWidth="200.0" promptText="Ingresa tu correo" />
+        <Button layoutX="168.0" layoutY="265.0" mnemonicParsing="false" text="Iniciar Sesión" />
+        <Button layoutX="350.0" layoutY="265.0" mnemonicParsing="false" text="Cancelar" />
+        <Label layoutX="227.0" layoutY="30.0" text="Bienvenido">
+        <font>
+           <Font size="18.0" />
+        </font>
+        </Label>
+      </children>
+    </Pane>
+  </children>
+</AnchorPane>
