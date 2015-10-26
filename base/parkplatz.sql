@@ -203,11 +203,7 @@ CREATE TABLE `datos` (
   `nombre` varchar(45) NOT NULL,
   `aPaterno` varchar(45) NOT NULL,
   `aMaterno` varchar(45) NOT NULL,
-  `idCordenadas` int(11) DEFAULT NULL,
-  PRIMARY KEY (`iddatos`),
-  KEY `idCordenadas` (`idCordenadas`),
-  CONSTRAINT `datos_ibfk_1` FOREIGN KEY (`idCordenadas`) REFERENCES `coordenadas` (`idcoordenadas`),
-  CONSTRAINT `datos_ibfk_2` FOREIGN KEY (`idCordenadas`) REFERENCES `coordenadas` (`idcoordenadas`)
+  PRIMARY KEY (`iddatos`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -217,6 +213,7 @@ CREATE TABLE `datos` (
 
 LOCK TABLES `datos` WRITE;
 /*!40000 ALTER TABLE `datos` DISABLE KEYS */;
+INSERT INTO `datos` VALUES (3,'Ivan','Herndandez','Salinas');
 /*!40000 ALTER TABLE `datos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -473,6 +470,7 @@ CREATE TABLE `tipousuario` (
 
 LOCK TABLES `tipousuario` WRITE;
 /*!40000 ALTER TABLE `tipousuario` DISABLE KEYS */;
+INSERT INTO `tipousuario` VALUES (1,'Administrador');
 /*!40000 ALTER TABLE `tipousuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -508,8 +506,44 @@ LOCK TABLES `usuario` WRITE;
 UNLOCK TABLES;
 
 --
+-- Temporary view structure for view `ver_tiposusuario`
+--
+
+DROP TABLE IF EXISTS `ver_tiposusuario`;
+/*!50001 DROP VIEW IF EXISTS `ver_tiposusuario`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `ver_tiposusuario` AS SELECT 
+ 1 AS `ID`,
+ 1 AS `Rol del usuario`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Dumping routines for database 'parkplatz'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `actualizar_tipoUsuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `actualizar_tipoUsuario`(in tipoViejo varchar(45), in tipoNuevo varchar(45))
+begin
+	if (select descripcion from tipousuario where descripcion = tipoViejo) = null then
+		select 'El tipo de usuario a actualizar no existe';
+	else
+		update tipousuario set descripcion = tipoNuevo where descripcion = tipoViejo;
+	end if;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `borrar_usuario` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -522,8 +556,12 @@ UNLOCK TABLES;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `borrar_usuario`(in correo varchar(45))
 begin
-	delete from datos where iddatos = (select idDatos from usuarios where usuarios.correo = correo);
+	if (select * from usuario where usuario.correo = correo) != null then
+    delete from datos where datos.iddatos = (select idDatos from usuario where usuario.correo = correo);
     delete from usuario where usuario.correo = correo;
+    else
+    select 'El usuario a eliminar no existe favor de verificarlo';
+    end if;
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -572,6 +610,48 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `eliminar_tipoUsuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `eliminar_tipoUsuario`(in tipo varchar(45))
+begin
+	if (select descripcion from tipousuario where descripcion = tipo) = null  then
+		select 'No se encontro tipo de usuario con esa descripcion';
+	else
+		delete from tipousuario where descripcion = tipo;
+	end if;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `nuevo_tipoUsuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `nuevo_tipoUsuario`(in id int , in tipo varchar(45))
+begin
+	insert into tipousuario values (id, tipo);
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `nuevo_usuario` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -584,10 +664,27 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `nuevo_usuario`(in Nombre varchar(45), in aPaterno varchar(45), in aMaterno varchar(45), in tipoUsuario int, in correo varchar(45), in contra varchar(500))
 begin
-	declare idDatos int;
-    set idDatos = (select count(*) from datos);
-    insert into datos values (idDatos, Nombre, aPaterno, aMaterno, null);
-    insert into usuario( select count(*) from usuario, idDatos, tipoUsuario, contra, correo);
+	/*declare idDatos int;
+
+		if idDatos = null then
+			set idDatos = 1;
+            insert into datos values (idDatos, Nombre, aPaterno, aMaterno);
+            if (select (max(usuario.idusuario)+1) from usuario) = null then
+				insert into usuario values (1, idDatos, tipoUsuario, contra, correo);
+			else
+				insert into usuario values ( (select (max(idusuario)+1) from usuario), idDatos, tipoUsuario, contra, correo);
+			end if;
+        else
+			set idDatos = 
+             insert into datos values (idDatos, Nombre, aPaterno, aMaterno);
+             if (select (max(usuario.idusuario)+1) from usuario) = null then
+				insert into usuario values (1, idDatos, tipoUsuario, contra, correo);
+			else
+				insert into usuario values ( (select (max(idusuario)+1) from usuario), idDatos, tipoUsuario, contra, correo);
+			end if;
+		end if;
+		*/
+        select 'En construccion';
   end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -662,6 +759,24 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Final view structure for view `ver_tiposusuario`
+--
+
+/*!50001 DROP VIEW IF EXISTS `ver_tiposusuario`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `ver_tiposusuario` AS select `tipousuario`.`idtipoUsuario` AS `ID`,`tipousuario`.`descripcion` AS `Rol del usuario` from `tipousuario` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -672,4 +787,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-22 21:52:57
+-- Dump completed on 2015-10-25 18:34:40
