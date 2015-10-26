@@ -213,7 +213,6 @@ CREATE TABLE `datos` (
 
 LOCK TABLES `datos` WRITE;
 /*!40000 ALTER TABLE `datos` DISABLE KEYS */;
-INSERT INTO `datos` VALUES (3,'Ivan','Herndandez','Salinas');
 /*!40000 ALTER TABLE `datos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -483,11 +482,12 @@ DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario` (
   `idusuario` int(11) NOT NULL,
-  `idDatos` int(11) DEFAULT NULL,
-  `idTipoUsuario` int(11) DEFAULT NULL,
-  `password` varchar(500) DEFAULT NULL,
-  `correo` varchar(45) DEFAULT NULL,
+  `idDatos` int(11) NOT NULL,
+  `idTipoUsuario` int(11) NOT NULL,
+  `password` varchar(500) NOT NULL,
+  `correo` varchar(45) NOT NULL,
   PRIMARY KEY (`idusuario`),
+  UNIQUE KEY `correo_UNIQUE` (`correo`),
   KEY `usuario` (`idDatos`),
   KEY `idTipoUsuario` (`idTipoUsuario`),
   CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`idDatos`) REFERENCES `datos` (`iddatos`),
@@ -516,6 +516,21 @@ SET character_set_client = utf8;
 /*!50001 CREATE VIEW `ver_tiposusuario` AS SELECT 
  1 AS `ID`,
  1 AS `Rol del usuario`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `ver_usuarios`
+--
+
+DROP TABLE IF EXISTS `ver_usuarios`;
+/*!50001 DROP VIEW IF EXISTS `ver_usuarios`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `ver_usuarios` AS SELECT 
+ 1 AS `idUsuario`,
+ 1 AS `correo`,
+ 1 AS `iddatos`,
+ 1 AS `descripcion`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -664,27 +679,21 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `nuevo_usuario`(in Nombre varchar(45), in aPaterno varchar(45), in aMaterno varchar(45), in tipoUsuario int, in correo varchar(45), in contra varchar(500))
 begin
-	/*declare idDatos int;
+	declare id_Datos int;
+    declare id_Usuario int;
+    if (SELECT max(idusuario) from usuario) is null then
+		set id_Usuario = 1;
+    else
+		set id_Usuario = (SELECT max(idusuario)+1 from usuario);
+    end if;
+    if (SELECT max(iddatos) from datos) is null then
+		set id_Datos = 1;
+    else
+		set id_Datos = (SELECT max(iddatos)+1 from datos);
+    end if;	
+    insert into datos values (id_Datos, Nombre, aPaterno, aMaterno);
+    insert into usuario values (id_Usuario, id_Datos, tipoUsuario, contra, correo);
 
-		if idDatos = null then
-			set idDatos = 1;
-            insert into datos values (idDatos, Nombre, aPaterno, aMaterno);
-            if (select (max(usuario.idusuario)+1) from usuario) = null then
-				insert into usuario values (1, idDatos, tipoUsuario, contra, correo);
-			else
-				insert into usuario values ( (select (max(idusuario)+1) from usuario), idDatos, tipoUsuario, contra, correo);
-			end if;
-        else
-			set idDatos = 
-             insert into datos values (idDatos, Nombre, aPaterno, aMaterno);
-             if (select (max(usuario.idusuario)+1) from usuario) = null then
-				insert into usuario values (1, idDatos, tipoUsuario, contra, correo);
-			else
-				insert into usuario values ( (select (max(idusuario)+1) from usuario), idDatos, tipoUsuario, contra, correo);
-			end if;
-		end if;
-		*/
-        select 'En construccion';
   end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -704,6 +713,32 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtener_datos`(in correo varchar(45))
 begin
 	select * from datos where iddatos = (select idDatos from usuario where usuario.correo = correo);
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `prueba` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `prueba`()
+begin
+declare id int;
+	if (select max(iddatos) from datos) is null then
+   set id = (select max(iddatos) from datos);
+   select 1;
+    ELSE
+    set id = (select max(iddatos) from datos);
+   select id;
+    end if;
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -777,6 +812,24 @@ DELIMITER ;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `ver_usuarios`
+--
+
+/*!50001 DROP VIEW IF EXISTS `ver_usuarios`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `ver_usuarios` AS select `usuario`.`idusuario` AS `idUsuario`,`usuario`.`correo` AS `correo`,`usuario`.`idDatos` AS `iddatos`,`tipousuario`.`descripcion` AS `descripcion` from (`usuario` join `tipousuario` on((`usuario`.`idTipoUsuario` = `tipousuario`.`idtipoUsuario`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -787,4 +840,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-25 18:34:40
+-- Dump completed on 2015-10-26 17:52:22
