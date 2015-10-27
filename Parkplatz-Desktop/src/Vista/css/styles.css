@@ -8,6 +8,15 @@ and open the template in the editor.
     Author     : Emmanuel 
 */
 /*Inicio registro estacionamientos*/
+.fondoOscuro{
+    -fx-background-color: #263238;
+}
+.fondoClaro{
+    -fx-background-color: #ECF0F1; 
+}
+.bordes{
+    -fx-border-color: #039BE5;/*Bordes para areas de texto o campos*/
+}
 
 /*Fin Registro Estacionamientos*/
 
