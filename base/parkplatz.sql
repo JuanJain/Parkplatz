@@ -260,15 +260,11 @@ CREATE TABLE `estacionamientos` (
   `idestacionamientos` int(11) NOT NULL,
   `idDatosEstacionamiento` int(11) DEFAULT NULL,
   `idDatos` int(11) DEFAULT NULL,
-  `idServicios` int(11) DEFAULT NULL,
   PRIMARY KEY (`idestacionamientos`),
   KEY `estacionamientos` (`idDatosEstacionamiento`),
   KEY `idDatos` (`idDatos`),
-  KEY `idServicios` (`idServicios`),
   CONSTRAINT `estacionamientos_ibfk_1` FOREIGN KEY (`idDatosEstacionamiento`) REFERENCES `datosestacionamientos` (`iddatosestacionamientos`),
-  CONSTRAINT `estacionamientos_ibfk_2` FOREIGN KEY (`idDatos`) REFERENCES `datos` (`iddatos`),
-  CONSTRAINT `estacionamientos_ibfk_3` FOREIGN KEY (`idServicios`) REFERENCES `servicios` (`idservicios`),
-  CONSTRAINT `estacionamientos_ibfk_4` FOREIGN KEY (`idServicios`) REFERENCES `servicios` (`idservicios`)
+  CONSTRAINT `estacionamientos_ibfk_2` FOREIGN KEY (`idDatos`) REFERENCES `datos` (`iddatos`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -840,4 +836,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-26 17:52:22
+-- Dump completed on 2015-10-27 21:19:25
