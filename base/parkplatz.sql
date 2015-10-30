@@ -4,7 +4,7 @@ USE `parkplatz`;
 --
 -- Host: localhost    Database: parkplatz
 -- ------------------------------------------------------
--- Server version	5.6.25-log
+-- Server version	5.6.17
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -346,6 +346,7 @@ CREATE TABLE `lugares` (
   `idlugares` int(11) NOT NULL,
   `idModoLugar` int(11) DEFAULT NULL,
   `idCoordenadas` int(11) DEFAULT NULL,
+  `piso` int(2) DEFAULT NULL,
   PRIMARY KEY (`idlugares`),
   KEY `lugares` (`idModoLugar`),
   KEY `idCoordenadas` (`idCoordenadas`),
@@ -836,4 +837,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-27 21:19:25
+-- Dump completed on 2015-10-30  2:56:08
