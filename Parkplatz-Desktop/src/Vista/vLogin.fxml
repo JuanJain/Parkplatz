@@ -6,33 +6,47 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.LoginController">
-    <stylesheets>
-        
-    </stylesheets>
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controlador.LoginController">
   <children>
-    <Pane layoutX="0.0" layoutY="0.0" prefHeight="400.0" prefWidth="600.0" >
+    <Pane layoutX="0.0" layoutY="0.0" prefHeight="400.0" prefWidth="600.0" styleClass="fondoImagen">
       <children>
-        <Label layoutX="80.0" layoutY="116.0" text="Correo" />
-        <Label layoutX="80.0" layoutY="184.0" text="Contraseña" />
-        <PasswordField fx:id="pass" layoutX="200.0" layoutY="178.0" prefWidth="200.0" promptText="Ingresa tu contraseña" />
-        <TextField fx:id="correo" layoutX="200.0" layoutY="116.0" prefWidth="200.0" promptText="Ingresa tu correo" />
-        <Button layoutX="168.0" layoutY="265.0" mnemonicParsing="false" text="Iniciar Sesión" />
-        <Button layoutX="350.0" layoutY="265.0" mnemonicParsing="false" text="Cancelar" />
-        <Label layoutX="227.0" layoutY="30.0" text="Bienvenido">
-        <font>
-           <Font size="18.0" />
-        </font>
+        <Label layoutX="80.0" layoutY="116.0" text="Correo :">
+          <font>
+            <Font name="System Bold" size="16.0" fx:id="x1" />
+          </font>
+          <textFill>
+            <Color blue="0.980" green="0.980" red="0.980" fx:id="x2" />
+          </textFill>
         </Label>
+        <Label font="$x1" layoutX="80.0" layoutY="184.0" text="Contraseña :" textFill="$x2" />
+        <PasswordField fx:id="pass" layoutX="200.0" layoutY="185.0" prefWidth="251.0" promptText="Ingresa tu contraseña" />
+        <TextField fx:id="correo" layoutX="200.0" layoutY="117.0" prefHeight="20.9609375" prefWidth="251.0" promptText="Ingresa tu correo" styleClass="bordesInput">
+          <stylesheets>
+            <URL value="@css/styles.css" />
+          </stylesheets>
+        </TextField>
+        <Button layoutX="168.0" layoutY="265.0" mnemonicParsing="false" text="Iniciar Sesión" />
+        <Button layoutX="354.0" layoutY="265.0" mnemonicParsing="false" text="Cancelar">
+          <font>
+            <Font size="12.0" />
+          </font>
+        </Button>
+        <Label layoutX="213.0" layoutY="32.0" styleClass="labelsLogin" text="Inicio de sesión" textAlignment="LEFT" textFill="$x2">
+          <font>
+            <Font name="System Bold" size="24.0" />
+          </font>
+          <stylesheets>
+            <URL value="@css/styles.css" />
+          </stylesheets>
+        </Label>
+        <Hyperlink fx:id="ForgotPass" layoutX="229.0" layoutY="308.0" text="¿Olvidaste tu contraseña?" textAlignment="JUSTIFY" textFill="$x2" wrapText="false" />
       </children>
+      <stylesheets>
+        <URL value="@css/styles.css" />
+      </stylesheets>
     </Pane>
   </children>
 </AnchorPane>

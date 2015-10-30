@@ -7,7 +7,7 @@ and open the template in the editor.
     Created on : 23/10/2015, 01:21:49 PM
     Author     : Emmanuel 
 */
-/*Inicio registro estacionamientos*/
+/*Inicio Login Estacionamientos*/
 .fondoOscuro{
     -fx-background-color: #263238;
 }
@@ -17,6 +17,19 @@ and open the template in the editor.
 .bordes{
     -fx-border-color: #039BE5;/*Bordes para areas de texto o campos*/
 }
-
-/*Fin Registro Estacionamientos*/
+.fondoImagen{
+    -fx-background-image: url("../Imagenes/autoLogin.jpg");
+    -fx-background-position: center;
+    
+}
+.labelsLogin{
+    
+    -fx-font-face: 'Roboto';
+    -fx-font-color: #FAFAFA;
+}
+.bordesInput{
+    -fx-background-color: #E0E0E0;
+    -fx-border-color: #D32F2F;
+}
+/*Fin Login Estacionamientos*/
 

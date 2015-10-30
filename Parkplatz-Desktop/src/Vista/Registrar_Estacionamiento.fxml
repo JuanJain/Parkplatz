@@ -6,40 +6,45 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.web.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="774.0" prefWidth="773.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.Registrar_EstacionamientoController">
+<AnchorPane id="AnchorPane" prefHeight="774.0" prefWidth="773.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="Controlador.Registrar_EstacionamientoController">
   <children>
-    <GridPane hgap="10.0" prefHeight="780.0" prefWidth="773.0" vgap="10.0">
+    <GridPane hgap="10.0" layoutX="1.0" layoutY="-1.0" prefHeight="780.0" prefWidth="773.0" vgap="10.0">
       <children>
         <Label text="Correo electronico: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-        <TextField GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1" />
-        <TextField GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+        <TextField promptText="ejemplo@ejemplo.com" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+        <TextField promptText="" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="2" />
         <Label text="Contraseña: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
         <Label text="Nombre del propietario: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
         <Label text="Apellido del propietario: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-        <TextField text="A. Paterno" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-        <TextField text="A. Materno" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+        <TextField promptText="A. Paterno" text="" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+        <TextField promptText="A. Materno" text="" GridPane.columnIndex="3" GridPane.rowIndex="4" />
         <TextField GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3" />
         <Label text="Nombre del estacionamiento: " GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
-        <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="5" />
-        <Label text="Datos del estacionamiento" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+        <Separator prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="5" />
+        <Label text="Datos del estacionamiento" GridPane.columnSpan="2" GridPane.rowIndex="5">
+          <font>
+            <Font size="18.0" fx:id="x1" />
+          </font>
+        </Label>
         <TextField GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="6" />
-        <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" />
-        <Label text="Datos personales" />
+        <Label font="$x1" minHeight="21.999908447265625" prefHeight="21.999908447265625" prefWidth="238.0" text="Datos personales" GridPane.columnSpan="2" />
         <Label text="Calle: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
         <Label text="Colonia: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
         <Label text="Delegacion / Municipio: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="10" />
         <Label text="Estado: " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
         <TextField GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="7" />
         <TextField GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="8" />
-        <ComboBox prefHeight="25.0" prefWidth="213.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="9" />
-        <ComboBox prefHeight="25.0" prefWidth="213.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="10" />
-        <Label text="En el mapa: " GridPane.rowIndex="11" />
+        <Label font="$x1" text="En el mapa: " GridPane.rowIndex="11" />
         <Label text="Si su ubicacion es correcta en el mapa de clic en el boton registrar, de lo contrario ajustelo" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="15" GridPane.valignment="TOP" />
-        <Button mnemonicParsing="false" text="Registrar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="16" />
-        <Button mnemonicParsing="false" text="Cancelar" GridPane.columnIndex="3" GridPane.rowIndex="16" />
+        <Button mnemonicParsing="false" prefWidth="80.0" text="Registrar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="16" />
+        <Button mnemonicParsing="false" prefWidth="80.0" text="Cancelar" GridPane.columnIndex="3" GridPane.rowIndex="16" />
         <WebView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="11" GridPane.rowSpan="4" />
+        <TextField prefWidth="279.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="9" />
+        <TextField prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="10" />
+        <Separator prefWidth="424.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="0" />
       </children>
       <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
