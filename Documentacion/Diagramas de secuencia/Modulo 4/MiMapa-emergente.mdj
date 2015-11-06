@@ -1085,9 +1085,9 @@
 													"showShadow": true,
 													"containerChangeable": false,
 													"containerExtending": false,
-													"left": 831,
+													"left": 841,
 													"top": 128,
-													"width": 202.31884765625,
+													"width": 182.8251953125,
 													"height": 13,
 													"autoResize": false,
 													"alpha": 1.6058686542540368,
@@ -1097,7 +1097,7 @@
 													},
 													"edgePosition": 1,
 													"underline": false,
-													"text": "3 : Usuaro y contraseña correctos?",
+													"text": "3 : Validar usuario y contraseña",
 													"horizontalAlignment": 2,
 													"verticalAlignment": 5
 												},
@@ -3945,7 +3945,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFQ0E6GPNWCfRU="
 									},
-									"name": "Usuaro y contraseña correctos?",
+									"name": "Validar usuario y contraseña",
 									"source": {
 										"$ref": "AAAAAAFQ0FCg7dXUJv8="
 									},

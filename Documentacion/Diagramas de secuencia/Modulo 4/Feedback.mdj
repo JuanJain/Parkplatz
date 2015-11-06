@@ -1085,19 +1085,19 @@
 													"showShadow": true,
 													"containerChangeable": false,
 													"containerExtending": false,
-													"left": 807,
+													"left": 799,
 													"top": 128,
-													"width": 202.31884765625,
+													"width": 182.8251953125,
 													"height": 13,
 													"autoResize": false,
-													"alpha": 1.6058686542540368,
-													"distance": 114.0701538527936,
+													"alpha": 1.61243790156073,
+													"distance": 96.08329719571451,
 													"hostEdge": {
 														"$ref": "AAAAAAFQ0FIOndYk6V4="
 													},
 													"edgePosition": 1,
 													"underline": false,
-													"text": "3 : Usuaro y contraseña correctos?",
+													"text": "3 : Validar usuario y contraseña",
 													"horizontalAlignment": 2,
 													"verticalAlignment": 5
 												},
@@ -2922,9 +2922,9 @@
 													"showShadow": true,
 													"containerChangeable": false,
 													"containerExtending": false,
-													"left": 88,
+													"left": 81,
 													"top": 527,
-													"width": 203.78515625,
+													"width": 216.0615234375,
 													"height": 13,
 													"autoResize": false,
 													"alpha": -1.5987620647193188,
@@ -2934,7 +2934,7 @@
 													},
 													"edgePosition": 1,
 													"underline": false,
-													"text": "14 : Desea eliminar este feedback?",
+													"text": "14 : Verificar eliminacion de feedback",
 													"horizontalAlignment": 2,
 													"verticalAlignment": 5
 												},
@@ -3089,9 +3089,9 @@
 													"showShadow": true,
 													"containerChangeable": false,
 													"containerExtending": false,
-													"left": 348,
+													"left": 330,
 													"top": 560,
-													"width": 99.708984375,
+													"width": 135.12890625,
 													"height": 13,
 													"autoResize": false,
 													"alpha": 1.5707963267948966,
@@ -3101,7 +3101,7 @@
 													},
 													"edgePosition": 1,
 													"underline": false,
-													"text": "15 : Si, eliminarlo",
+													"text": "15 : Si desea eliminarlo",
 													"horizontalAlignment": 2,
 													"verticalAlignment": 5
 												},
@@ -3945,7 +3945,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFQ0E6GPNWCfRU="
 									},
-									"name": "Usuaro y contraseña correctos?",
+									"name": "Validar usuario y contraseña",
 									"source": {
 										"$ref": "AAAAAAFQ0FCg7dXUJv8="
 									},
@@ -4132,7 +4132,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFQ0E6GPNWCfRU="
 									},
-									"name": "Desea eliminar este feedback?",
+									"name": "Verificar eliminacion de feedback",
 									"source": {
 										"$ref": "AAAAAAFQ0E+hENWTYKg="
 									},
@@ -4149,7 +4149,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFQ0E6GPNWCfRU="
 									},
-									"name": "Si, eliminarlo",
+									"name": "Si desea eliminarlo",
 									"source": {
 										"$ref": "AAAAAAFQ0E+hENWTYKg="
 									},
