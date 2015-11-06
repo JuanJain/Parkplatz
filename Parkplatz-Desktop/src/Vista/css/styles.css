@@ -23,13 +23,30 @@ and open the template in the editor.
     
 }
 .labelsLogin{
-    
     -fx-font-face: 'Roboto';
     -fx-font-color: #FAFAFA;
 }
-.bordesInput{
+.input{
     -fx-background-color: #E0E0E0;
+    
+}
+.botones{
+    -fx-background-color: #D32F2F;
+    -fx-border-radius: 60;
+}
+.labelPark{
+    -fx-background-color: #D32F2F;
+    -fx-alignment: center;
+}
+.input:hover{
     -fx-border-color: #D32F2F;
+}
+.input:focused{
+    -fx-border-color: #D32F2F;
+    -fx-background-color: #ededed;
+}
+.botones:hover{
+    -fx-background-color: #dc5959;
 }
 /*Fin Login Estacionamientos*/
 
