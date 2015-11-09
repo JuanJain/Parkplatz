@@ -44,6 +44,31 @@ LOCK TABLES `asset` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `cat_menu`
+--
+
+DROP TABLE IF EXISTS `cat_menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cat_menu` (
+  `idMenu` int(11) NOT NULL,
+  `nombreCampo` varchar(45) NOT NULL,
+  `tipoCampo` varchar(45) NOT NULL,
+  `nombreAMostrar` varchar(100) NOT NULL,
+  KEY `id_menu` (`idMenu`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cat_menu`
+--
+
+LOCK TABLES `cat_menu` WRITE;
+/*!40000 ALTER TABLE `cat_menu` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cat_menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `catalogomodolugares`
 --
 
@@ -391,6 +416,33 @@ CREATE TABLE `recientes` (
 LOCK TABLES `recientes` WRITE;
 /*!40000 ALTER TABLE `recientes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `recientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `rel_tipousuario_menu`
+--
+
+DROP TABLE IF EXISTS `rel_tipousuario_menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rel_tipousuario_menu` (
+  `idTipoUsuario` int(11) NOT NULL,
+  `idMenu` int(11) NOT NULL,
+  PRIMARY KEY (`idTipoUsuario`),
+  KEY `idTipoUsuario` (`idTipoUsuario`),
+  KEY `idMenu` (`idMenu`),
+  CONSTRAINT `fk_menu` FOREIGN KEY (`idMenu`) REFERENCES `cat_menu` (`idMenu`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tipoUsuario` FOREIGN KEY (`idTipoUsuario`) REFERENCES `tipousuario` (`idtipoUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rel_tipousuario_menu`
+--
+
+LOCK TABLES `rel_tipousuario_menu` WRITE;
+/*!40000 ALTER TABLE `rel_tipousuario_menu` DISABLE KEYS */;
+/*!40000 ALTER TABLE `rel_tipousuario_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -837,4 +889,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-31 19:23:54
+-- Dump completed on 2015-11-09 16:37:46
